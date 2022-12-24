@@ -30,7 +30,7 @@ public class JwtUtils {
     public static String generateToken(Map<String,String> map){
         // token expiration
         Calendar calendar = Calendar.getInstance();
-        calendar.add(Calendar.DATE,1);
+        calendar.add(Calendar.MINUTE,15);
         Date date = calendar.getTime();
 
         JWTCreator.Builder builder = JWT.create();
@@ -42,6 +42,21 @@ public class JwtUtils {
         return builder.sign(Algorithm.HMAC256(SIGN));
     }
 
+    /**
+     * check if token is right
+     * @param token
+     * @return
+     */
+    public static TokenResult checkToken(String token) {
+        TokenResult tokenResult = null;
+
+        try {
+            tokenResult = JwtUtils.parseToken(token);
+        } catch (Exception e) {
+            System.out.println("Token expired");
+        }
+        return tokenResult;
+    }
 
 
 }
