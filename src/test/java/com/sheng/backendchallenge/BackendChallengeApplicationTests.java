@@ -68,7 +68,7 @@ class BackendChallengeApplicationTests {
     //}
     @Test
     public void getTransaction() {
-        Transaction transaction = transactionDao.selectOne(new QueryWrapper<Transaction>().eq("transaction_id", "fsdjfh1231jhfsfdsf"));
+        Transaction transaction = transactionDao.selectOne(new QueryWrapper<Transaction>().eq("transaction_id", "uniqueIdentifier0"));
         System.out.println(transaction.toString());
     }
 

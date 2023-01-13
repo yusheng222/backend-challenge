@@ -1,0 +1,20 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="com.sheng.backendchallenge.dao.AccountDao">
+
+    <resultMap id="accountMap" type="com.sheng.backendchallenge.entity.Account">
+        <result property="accNo" column="acc_no"/>
+        <result property="cusId" column="cus_id"/>
+        <result property="currency" column="currency"/>
+        <result property="accIban" column="acc_iban"/>
+
+    </resultMap>
+    <select id="findAccountsByCustomerId" resultType="java.lang.Long">
+        select acc_no
+        from account
+        where cus_id = #{cus_id};
+    </select>
+
+
+</mapper>

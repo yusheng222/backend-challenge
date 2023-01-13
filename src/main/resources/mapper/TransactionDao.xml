@@ -1,0 +1,23 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="com.sheng.backendchallenge.dao.TransactionDao">
+
+    <resultMap id="transactionMap" type="com.sheng.backendchallenge.entity.Transaction">
+        <result property="transactionId" column="transaction_id"/>
+        <result property="accId" column="acc_id"/>
+        <result property="amount" column="amount"/>
+        <result property="currency" column="currency"/>
+        <result property="accountIban" column="account_iban"/>
+        <result property="valueDate" column="value_date"/>
+        <result property="description" column="description"/>
+        <result property="cusId" column="cus_id"/>
+    </resultMap>
+    <select id="findTransactionList" resultMap="transactionMap">
+        select `transaction_id`, `acc_id`, `amount`, `currency`, `value_date`,`description`
+        from `transaction`
+        where cus_id = #{cus_id}
+    </select>
+
+
+</mapper>
