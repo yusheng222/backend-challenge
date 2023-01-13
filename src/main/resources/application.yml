@@ -1,6 +1,5 @@
 server:
   port: 9922
-
 spring:
   kafka:
     # kafka connection address
@@ -8,10 +7,10 @@ spring:
     # producer configuration
     producer:
       key-serializer: org.apache.kafka.common.serialization.StringSerializer
-      value-serializer: org.springframework.kafka.support.serializer.JsonSerializer
+      value-serializer: org.apache.kafka.common.serialization.StringSerializer
     consumer:
-      key-deserializer: org.apache.kafka.common.serialization.StringSerializer
-      value-deserializer: org.springframework.kafka.support.serializer.JsonSerializer
+      key-deserializer: org.apache.kafka.common.serialization.StringDeserializer
+      value-deserializer: org.apache.kafka.common.serialization.StringDeserializer
       group-id: challenge-group
       auto-offset-reset: earliest
       properties:
@@ -19,4 +18,24 @@ spring:
           json:
             trusted:
               package: '*'
+      enable-auto-commit: true
+      max-poll-records: 100
+  datasource:
+    url: jdbc:mysql://localhost:3306/backend-challenge?characterEncoding=utf8&useSSL=false&serverTimezone=UTC&rewriteBatchedStatements=true
+    username: root
+    password: 1971824a
+    driver-class-name: com.mysql.cj.jdbc.Driver
+  redis:
+    host: localhost
+    port: 6379
+    database: 0
+mybatis-plus:
+  mapper-locations: classpath*:/mapper/*.xml
+  global-config:
+    db-config:
+      id-type: auto
+      logic-delete-value: 1  # 逻辑已删除值
+      logic-not-delete-value: 0 # 逻辑未删除值
 
+pagehelper:
+  reasonable: true

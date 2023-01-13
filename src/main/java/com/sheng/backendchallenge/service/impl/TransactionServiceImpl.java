@@ -1,66 +1,28 @@
 package com.sheng.backendchallenge.service.impl;
 
-import com.sheng.backendchallenge.constant.CommonStatusEnum;
-import com.sheng.backendchallenge.dto.ResponseResult;
-import com.sheng.backendchallenge.dto.TokenResult;
-import com.sheng.backendchallenge.service.ConsumerService;
+import com.baomidou.mybatisplus.extension.service.impl.ServiceImpl;
+import com.github.pagehelper.PageHelper;
+import com.github.pagehelper.PageInfo;
+import com.sheng.backendchallenge.constant.PageConstant;
+import com.sheng.backendchallenge.dao.TransactionDao;
+import com.sheng.backendchallenge.entity.Transaction;
 import com.sheng.backendchallenge.service.TransactionService;
-import com.sheng.backendchallenge.utils.JwtUtils;
-import org.springframework.data.redis.core.StringRedisTemplate;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
-import javax.annotation.Resource;
-import java.util.Calendar;
+import java.util.List;
 
 @Service
-public class TransactionServiceImpl implements TransactionService {
+public class TransactionServiceImpl extends ServiceImpl<TransactionDao,Transaction> implements TransactionService {
 
-    @Resource
-    ConsumerService consumerService;
-
-    @Resource
-    StringRedisTemplate stringRedisTemplate;
+    @Autowired
+    private TransactionDao transactionDao;
 
     @Override
-    public ResponseResult doTransactionProcess(String jwtToken, String date) {
-        // set redis to check if request already exits
-        Boolean flag = stringRedisTemplate.opsForValue().setIfAbsent(jwtToken + date, jwtToken + date);
-        if (!flag){
-            return ResponseResult.fail(CommonStatusEnum.MULTIPLE_REQUEST.getCode()
-                    ,CommonStatusEnum.MULTIPLE_REQUEST.getValue());
-        }
-        // parse the JWT token passed from user
-        TokenResult tokenResult = JwtUtils.checkToken(jwtToken);
-        if (tokenResult == null) {
-            return ResponseResult.fail(CommonStatusEnum.TOKEN_ERROR.getCode(),
-                    CommonStatusEnum.TOKEN_ERROR.getValue());
-        }
-        String identifier = tokenResult.getIdentifier();
-
-        // check if the accounts exits
-        String[] split = date.trim().split("-");
-        int year = Integer.parseInt(split[0]);
-        int month = Integer.parseInt(split[1]);
-        long startTime = parseDate(year,month);
-        long endTime = parseDate(year,month+1);
-
-
-
-        return null;
-    }
-
-
-    private static long parseDate(int year, int month){
-
-
-        Calendar calendar = Calendar.getInstance();
-        calendar.set(Calendar.YEAR,year);
-        calendar.set(Calendar.MONTH,month-1);
-        calendar.set(Calendar.DATE,1);
-        calendar.set(Calendar.HOUR,0);
-        calendar.set(Calendar.MINUTE,0);
-        calendar.set(Calendar.SECOND,0);
-        calendar.set(Calendar.MILLISECOND,0);
-        return calendar.getTimeInMillis();
+    public List<Transaction> findTransactionList(Long customerId,Integer pageNo) {
+        PageHelper.startPage(pageNo, PageConstant.PAGE_SIZE);
+        List<Transaction> transactionList = transactionDao.findTransactionList(123456789123L);
+        PageInfo<Transaction> page = new PageInfo<>(transactionList);
+        return page.getList();
     }
 }

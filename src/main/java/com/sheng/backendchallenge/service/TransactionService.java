@@ -1,9 +1,11 @@
 package com.sheng.backendchallenge.service;
 
+import com.baomidou.mybatisplus.extension.service.IService;
+import com.sheng.backendchallenge.entity.Transaction;
 
-import com.sheng.backendchallenge.dto.ResponseResult;
+import java.util.List;
 
-public interface TransactionService {
+public interface TransactionService extends IService<Transaction> {
 
-    public ResponseResult doTransactionProcess(String jwtToken, String month);
+    List<Transaction> findTransactionList(Long customerId,Integer pageNo);
 }
