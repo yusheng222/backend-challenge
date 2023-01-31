@@ -3,7 +3,7 @@ server:
 spring:
   kafka:
     # kafka connection address
-    bootstrap-servers: localhost:9092
+    bootstrap-servers: 47.112.103.59:9092
     # producer configuration
     producer:
       key-serializer: org.apache.kafka.common.serialization.StringSerializer
@@ -21,14 +21,15 @@ spring:
       enable-auto-commit: true
       max-poll-records: 100
   datasource:
-    url: jdbc:mysql://localhost:3306/backend-challenge?characterEncoding=utf8&useSSL=false&serverTimezone=UTC&rewriteBatchedStatements=true
-    username: root
+    url: jdbc:mysql://47.112.103.59:3306/backendchallenge?characterEncoding=utf8&useSSL=false&serverTimezone=UTC&rewriteBatchedStatements=true
+    username: allen
     password: 1971824a
     driver-class-name: com.mysql.cj.jdbc.Driver
   redis:
-    host: localhost
+    host: 47.112.103.59
     port: 6379
     database: 0
+    password: cys960222
 mybatis-plus:
   mapper-locations: classpath*:/mapper/*.xml
   global-config:
