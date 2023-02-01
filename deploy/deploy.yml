@@ -1,0 +1,51 @@
+---
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: backend-challenge
+  namespace: test
+  labels:
+    app: backend-challenge
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: backend-challenge
+  template:
+    metadata:
+      labels:
+        app: mall-auth-server
+    spec:
+      containers:
+      - name: backend-challenge
+        image: c463038352/backend-challenge:latest
+        imagePullPolicy: Always
+        ports:
+        - name: tcp-9922
+          containerPort: 9922
+          protocol: TCP
+        resources:
+          limits:
+            cpu: 1000m
+            memory: 500Mi
+          requests:
+            cpu: 10m
+            memory: 10Mi
+...
+
+---
+kind: Service
+apiVersion: v1
+metadata:
+  name: backend-challenge
+  namespace: test
+  labels:
+    app: backend-challenge
+spec:
+  ports:
+  - name: http
+    protocol: TCP
+    port: 9922
+    targetPort: 9922
+  selector:
+    app: backend-challenge

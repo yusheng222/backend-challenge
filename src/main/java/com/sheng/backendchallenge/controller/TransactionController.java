@@ -3,8 +3,7 @@ package com.sheng.backendchallenge.controller;
 import com.sheng.backendchallenge.constant.CommonConstant;
 import com.sheng.backendchallenge.dto.ResponseResult;
 import com.sheng.backendchallenge.service.KafkaTransactionService;
-import io.swagger.annotations.Api;
-import io.swagger.annotations.ApiOperation;
+import io.swagger.annotations.*;
 import org.springframework.web.bind.annotation.*;
 
 import javax.annotation.Resource;
@@ -24,9 +23,15 @@ public class TransactionController {
      * @param param
      * @return
      */
-    @ApiOperation("Transaction")
+    @ApiOperation("Get Transaction List in Page list")
+    @ApiImplicitParams({
+            @ApiImplicitParam(name = "param", value = "a parameter Map contains date value in yyyy-MM pattern, and a PageNo that means which page that user looks for ",
+            paramType = "Map")
+    })
     @RequestMapping(value = "/list",method = RequestMethod.GET)
-    public ResponseResult transactionList(HttpServletRequest request, @RequestParam Map<String,Object> param){
+    public ResponseResult transactionList(@ApiParam(name = "request",value = "http request") HttpServletRequest request,
+                                          @ApiParam(name = "param",value = "map contains date value and page number")
+                                          @RequestParam Map<String,Object> param){
         long start = System.currentTimeMillis();
         String jwtToken = request.getHeader(CommonConstant.AUTHORIZATION);
         String date = (String) param.get(CommonConstant.DATE);
